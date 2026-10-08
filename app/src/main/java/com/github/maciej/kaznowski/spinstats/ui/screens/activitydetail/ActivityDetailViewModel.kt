@@ -1,5 +1,6 @@
 package com.github.maciej.kaznowski.spinstats.ui.screens.activitydetail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.maciej.kaznowski.intervalsicuclient.model.ActivityStream
@@ -27,16 +28,19 @@ class ActivityDetailViewModel @Inject constructor(
 
     fun loadStreams(activityId: String) {
         if (activityId.isBlank()) return
+        Log.d("ActivityDetailVM", "Loading streams for activity: $activityId")
         _uiState.value = _uiState.value.copy(isLoading = true, error = null)
         activitiesRepository.getActivityStreams(activityId)
             .onEach { result ->
                 result.onSuccess { streams ->
+                    Log.d("ActivityDetailVM", "Got streams: \${streams.size}")
                     _uiState.value = _uiState.value.copy(
                         streams = streams,
                         isLoading = false,
                         error = null
                     )
                 }.onFailure { throwable ->
+                    Log.e("ActivityDetailVM", "Stream error", throwable)
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         error = throwable.message ?: "Unknown error"
