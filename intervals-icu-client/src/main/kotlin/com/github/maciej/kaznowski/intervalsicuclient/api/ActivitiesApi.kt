@@ -253,7 +253,7 @@ interface ActivitiesApi {
      * @param types Streams required (optional)
      * @return [Call]<[kotlin.collections.List<ActivityStream>]>
      */
-    @GET("api/v1/activity/{id}/streams{ext}")
+    @GET("api/v1/activity/{id}/streams")
     fun getActivityStreams(@Path("id") id: kotlin.String, @Query("types") types: kotlin.collections.List<kotlin.String>? = null): Call<kotlin.collections.List<ActivityStream>>
 
 
