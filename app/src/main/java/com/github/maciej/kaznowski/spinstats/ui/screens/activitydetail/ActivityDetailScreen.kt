@@ -35,6 +35,10 @@ fun ActivityDetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    androidx.compose.runtime.LaunchedEffect(activityId) {
+        viewModel.loadStreams(activityId)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
