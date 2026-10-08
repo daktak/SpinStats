@@ -26,25 +26,23 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "INTERVALS_ICU_API_KEY", "\"${System.getenv('INTERVALS_ICU_API_KEY')}\""
         }
         debug {
-            buildConfigField "String", "INTERVALS_ICU_API_KEY", "\"${System.getenv('INTERVALS_ICU_API_KEY')}\""
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     buildFeatures {
         buildConfig true
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.5.1'
+        kotlinCompilerExtensionVersion '1.5.8'
     }
     packaging {
         resources {
@@ -82,4 +80,28 @@ dependencies {
 
     implementation libs.hilt.android
     kapt libs.hilt.compiler
+
+    implementation libs.androidx.datastore.preferences
+    implementation libs.androidx.navigation.compose
+    implementation libs.androidx.hilt.navigation.compose
+    implementation libs.androidx.lifecycle.runtime.compose
+}
+kapt {
+    javacOptions {
+        option("-J--add-opens", "jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED")
+        option("-J--add-opens", "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED")
+        option("-J--add-opens", "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED")
+        option("-J--add-opens", "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED")
+        option("-J--add-opens", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED")
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs).configureEach {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ["--add-opens", "jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED"]
 }
