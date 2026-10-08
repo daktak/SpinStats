@@ -92,15 +92,26 @@ fun ActivityDetailScreen(
                                 modifier = Modifier.padding(top = 8.dp)
                             )
                             uiState.streams.forEach { stream ->
+                                val data = stream.data
+                                val dataStr = when (data) {
+                                    is List<*> -> " (${data.size} points) ${data.take(5).joinToString(", ")}${if (data.size > 5) "..." else ""}"
+                                    else -> " = $data"
+                                }
                                 Text(
-                                    text = "- ${stream.type ?: "unknown"}: ${stream.name ?: ""}",
+                                    text = "- ${stream.type ?: "unknown"}: ${stream.name ?: ""}$dataStr",
                                     style = MaterialTheme.typography.bodySmall,
                                     modifier = Modifier.padding(start = 8.dp, top = 4.dp)
                                 )
                             }
+                        } else if (uiState.error != null) {
+                            Text(
+                                text = "Error: \${uiState.error}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(top = 8.dp)
+                            )
                         } else {
                             Text(
-                                text = "No streams available",
+                                text = "No streams available for this activity",
                                 style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.padding(top = 8.dp)
                             )
