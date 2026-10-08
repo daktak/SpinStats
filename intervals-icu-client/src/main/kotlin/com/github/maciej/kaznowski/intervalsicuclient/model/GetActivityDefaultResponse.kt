@@ -438,7 +438,7 @@ data class GetActivityDefaultResponse (
     val intervalSummary: kotlin.collections.List<kotlin.String>? = null,
 
     @Json(name = "skyline_chart_bytes")
-    val skylineChartBytes: kotlin.collections.List<kotlin.ByteArray>? = null,
+    val skylineChartBytes: kotlin.Any? = null,
 
     @Json(name = "stream_types")
     val streamTypes: kotlin.collections.List<kotlin.String>? = null,
